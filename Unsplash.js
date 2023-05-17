@@ -1,8 +1,10 @@
 // Unsplash.js - taken from https://javascript.plainenglish.io/a-beginners-guide-to-unsplash-api-in-javascript-2524c51ae1f3
 
 import { createApi } from 'unsplash-js';
+import logger from '../utils/logger.js';
 import fetch from 'node-fetch';
 import fs from 'fs';
+
 
 export class Unsplash {
   constructor(accessKey) {
@@ -12,8 +14,10 @@ export class Unsplash {
 
   async getPhoto(type, query, page = 1, per_page = 8, orientation = 'landscape' ) {
     try {
-      // Send a request to the Unsplash API to search for photos
-      let query = "Karaoke";
+      // Log that a request is being sent to the Unsplash API
+      logger.info(`Sending request to Unsplash API with search phrase: ${query}`);
+
+       // Send a request to the Unsplash API to search for photos
       const response  = await this.unsplash.search.getPhotos({
         query,
         page,
@@ -43,6 +47,9 @@ export class Unsplash {
         </a>
       `;
 
+      // Log that a response has been received
+      logger.info(`Received response from Unsplash API`);
+
       // Check the value of the "type" parameter and execute the corresponding code block
       switch (type) {
         case 'buffer':
@@ -65,6 +72,7 @@ export class Unsplash {
           const filePath = `src/images/${query}.jpg`
           // Write the photo to the file system
           await fs.promises.writeFile(filePath, image);
+          console.log(caption);
           console.log(`${query}.jpg saved`);
           break;
         default:
