@@ -16,4 +16,5 @@ npm install
 UNSPLASH_KEY=API_KEY_FROM_UNSPLASH
 ```
 
+- Create a folder called `images` to store your results
 - Run via `node index.js`
